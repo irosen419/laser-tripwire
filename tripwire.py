@@ -1,22 +1,28 @@
 import RPi.GPIO as GPIO
 from time import sleep
+from sensor import Sensor
 
 class Tripwire:
-  def __init__(self, sensor_pin, speaker_pin, warnings = False):
+  def __init__(self, sensor_pin, speaker_pin = None, warnings = False):
     self.sensor_pin = sensor_pin
     self.warnings = warnings
+    self.setup()
 
   def setup(self):
     GPIO.setwarnings(self.warnings)
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(self.sensor_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-  def alert(self):
+  def get_sensor(self):
+    return Sensor(GPIO, self.sensor_pin)
+
+  def start(self):
+    sensor = self.get_sensor()
+
     while True:
-      button_state = GPIO.input(self.sensor_pin)
-      print(button_state)
+      sensor_state = sensor.get_status()
+      print(sensor_state)
 
-      if button_state == 0:
+      if sensor_state == 0:
         print('NO MOVEMENT!')
       else:
         print('LASER TRIPPED!')
@@ -25,5 +31,4 @@ class Tripwire:
 
 
 test = Tripwire(18)
-test.setup()
-test.alert()
+test.start()
