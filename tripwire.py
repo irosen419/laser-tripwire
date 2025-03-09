@@ -19,17 +19,23 @@ class Tripwire:
   def start(self):
     sensor = self.get_sensor()
     sound = Sound('./assets/sounds/buzzer.mp3')
+
+    wire_tripped = False
+
     while True:
       sensor_state = sensor.get_status()
       print(sensor_state)
 
       if sensor_state == 0:
         print('NO MOVEMENT!')
+        wire_tripped = False
       else:
         print('LASER TRIPPED!')
-        sound.play()
+        if wire_tripped == False:
+          sound.play()
+          wire_tripped = True
 
-      sleep(1)
+      sleep(1.5)
 
 
 test = Tripwire(18)
