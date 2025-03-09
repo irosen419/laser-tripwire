@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 from sensor import Sensor
+from sound import Sound
 
 class Tripwire:
   def __init__(self, sensor_pin, speaker_pin = None, warnings = False):
@@ -17,7 +18,7 @@ class Tripwire:
 
   def start(self):
     sensor = self.get_sensor()
-
+    sound = Sound('./assets/sounds/buzzer.mp3')
     while True:
       sensor_state = sensor.get_status()
       print(sensor_state)
@@ -26,6 +27,7 @@ class Tripwire:
         print('NO MOVEMENT!')
       else:
         print('LASER TRIPPED!')
+        sound.play()
 
       sleep(1)
 
