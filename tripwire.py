@@ -35,8 +35,6 @@ class Tripwire:
           sound.play()
           wire_tripped = True
 
-      sleep(1.5)
-
 
 test = Tripwire(18)
 test.start()
