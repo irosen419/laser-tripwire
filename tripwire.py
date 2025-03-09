@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-from time import sleep
 from sensor import Sensor
 from sound import Sound
 
