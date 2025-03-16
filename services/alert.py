@@ -1,6 +1,6 @@
-from logger import Logger
-from mailer import Mailer
-from twilio_class import Twilio
+from utils.logger import Logger
+from services.mailer import Mailer
+from services.twilio_class import Twilio
 
 class Alert:
   def __init__(self, alert_type='multi', logger=None, mailer=None, twilio=None):
@@ -35,9 +35,3 @@ class Alert:
       self.__twilio.send_sms()
     except Exception as e:
       self.__logger(e).log_error()
-
-Alert().alert()
-
-# #* Alerts work. Comment out for now, so as to not exceed API call limits
-# print('ALERT! ALERT!')
-# return None

@@ -1,15 +1,13 @@
 import os
 
 from dotenv import load_dotenv
-from logger import Logger
 from mailersend import emails
 
-APP_NAME = 'Doggy App'
+from utils.logger import Logger
 
 class Mailer:
   def __init__(self):
     load_dotenv()
-
 
     if not self.__mailersend_api_key:
       raise ValueError('MAILERSEND_API_KEY is missing')

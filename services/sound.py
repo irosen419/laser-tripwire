@@ -1,10 +1,10 @@
 import pygame
 
-from logger import Logger
+from utils.logger import Logger
 
 class Sound():
   def __init__(self, file_name = 'buzzer.mp3'):
-    self.file_name = file_name
+    self._file_name = file_name
     self.__mixer = self.__initialize_mixer()
     self.__logger = Logger
 
@@ -25,6 +25,10 @@ class Sound():
   def keep_it_going(self):
     while self.__mixer.music.get_busy():
       pygame.time.Clock().tick(10)  #* Keeps the script alive while the sound is playing
+
+  @property
+  def file_name(self):
+    return self._file_name
 
   def file_location(self):
     return f'./assets/sounds/{self.file_name}'

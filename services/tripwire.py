@@ -1,9 +1,9 @@
-import RPi.GPIO as GPIO
 import time
+import RPi.GPIO as GPIO
 
-from alert import Alert
-from sensor import Sensor
-from sound import Sound
+from services.alert import Alert
+from services.sensor import Sensor
+from services.sound import Sound
 
 class Tripwire:
   def __init__(self, sensor_pin, speaker_pin=None, warnings=False, sound='buzzer.mp3'):
@@ -16,7 +16,7 @@ class Tripwire:
 
   def start(self):
     print('Tripwire activated...')
-    
+
     while True:
       if self.sensor_triggered:
         if not self.__wire_tripped:
@@ -25,7 +25,7 @@ class Tripwire:
           self.__wire_tripped = True
       else:
         self.__wire_tripped = False
-        
+
       time.sleep(0.1)  # Prevents CPU from overheating
 
   @property
