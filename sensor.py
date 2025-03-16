@@ -1,11 +1,15 @@
-class Sensor():
+class Sensor:
   def __init__(self, gpio, pin):
-    self.pin = pin
-    self.GPIO = gpio
-    self.setup()
+    self._gpio = gpio
+    self._pin = pin
+    self._setup()
 
-  def setup(self):
-    self.GPIO.setup(self.pin, self.GPIO.IN, pull_up_down=self.GPIO.PUD_UP)
+  def status(self):
+    return self._gpio.input(self._pin)
 
-  def get_status(self):
-    return self.GPIO.input(self.pin)
+  @property
+  def is_triggered(self):
+    return self.status() != 0
+
+  def _setup(self):
+    self._gpio.setup(self._pin, self._gpio.IN, pull_up_down=self._gpio.PUD_UP)

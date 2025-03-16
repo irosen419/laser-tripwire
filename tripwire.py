@@ -1,39 +1,49 @@
 import RPi.GPIO as GPIO
+import time
+
+from alert import Alert
 from sensor import Sensor
 from sound import Sound
 
 class Tripwire:
-  def __init__(self, sensor_pin, speaker_pin = None, warnings = False):
+  def __init__(self, sensor_pin, speaker_pin=None, warnings=False, sound='buzzer.mp3'):
     self.sensor_pin = sensor_pin
+    self.speaker_pin = speaker_pin
     self.warnings = warnings
-    self.setup()
-
-  def setup(self):
-    GPIO.setwarnings(self.warnings)
-    GPIO.setmode(GPIO.BCM)
-
-  def get_sensor(self):
-    return Sensor(GPIO, self.sensor_pin)
+    self.__alert = Alert()
+    self.__sound = Sound(sound) if speaker_pin else None
+    self.__wire_tripped = False
 
   def start(self):
-    sensor = self.get_sensor()
-    sound = Sound('./assets/sounds/buzzer.mp3')
-
-    wire_tripped = False
-
+    print('Tripwire activated...')
+    
     while True:
-      sensor_state = sensor.get_status()
-      print(sensor_state)
-
-      if sensor_state == 0:
-        print('NO MOVEMENT!')
-        wire_tripped = False
+      if self.sensor_triggered:
+        if not self.__wire_tripped:
+          self.alert_user()
+          self.play_sound()
+          self.__wire_tripped = True
       else:
-        print('LASER TRIPPED!')
-        if wire_tripped == False:
-          sound.play()
-          wire_tripped = True
+        self.__wire_tripped = False
+        
+      time.sleep(0.1)  # Prevents CPU from overheating
 
+  @property
+  def sensor_triggered(self):
+    return self.__sensor.is_triggered
 
-test = Tripwire(18)
-test.start()
+  @property
+  def __sensor(self):
+    return Sensor(GPIO, self.sensor_pin)
+
+  def alert_user(self):
+    self.__alert.alert()
+
+  def play_sound(self):
+    if self.__sound:
+      self.__sound.play()
+
+  @property
+  def gpio(self):
+    GPIO.setwarnings(self.warnings)
+    GPIO.setmode(GPIO.BCM)
