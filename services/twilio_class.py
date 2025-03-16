@@ -4,8 +4,6 @@ from utils import Config, Logger
 
 class Twilio:
   def __init__(self):
-    load_dotenv()
-
     if not self.__from_number:
       raise ValueError('TWILIO_FROM_NUMBER is missing')
     if not self.__to_number:

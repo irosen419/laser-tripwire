@@ -4,8 +4,6 @@ from utils import Config, Logger
 
 class Mailer:
   def __init__(self):
-    load_dotenv()
-
     if not self.__mailersend_api_key:
       raise ValueError('MAILERSEND_API_KEY is missing')
     if not self.__to_email:
