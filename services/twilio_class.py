@@ -3,7 +3,7 @@ from twilio.rest import Client
 from utils import Config, Logger
 
 class Twilio:
-  def __init__(self):
+  def __init__(self, logger=None):
     if not self.__from_number:
       raise ValueError('TWILIO_FROM_NUMBER is missing')
     if not self.__to_number:
@@ -13,7 +13,7 @@ class Twilio:
     if not self.__auth_key:
       raise ValueError('TWILIO_AUTH_KEY is missing')
 
-    self.__logger = Logger
+    self.__logger = logger or Logger()
 
   def send_sms(self, message = 'Tripwire activated! Click here to view the footage:'):
     print('Sending sms!')
@@ -25,7 +25,7 @@ class Twilio:
         body = message
       )
     except Exception as e:
-      self.__logger(e).log_error()
+      self.__logger.log_error(e, context=self.__class__.__name__)
 
   @property
   def __client(self):

@@ -3,10 +3,10 @@ import pygame
 from utils import Logger
 
 class Sound():
-  def __init__(self, file_name = 'buzzer.mp3'):
+  def __init__(self, file_name = 'buzzer.mp3', logger=None):
     self._file_name = file_name
     self.__mixer = self.__initialize_mixer()
-    self.__logger = Logger
+    self.__logger = logger or Logger()
 
   def __initialize_mixer(self):
     pygame.mixer.init()
@@ -20,7 +20,7 @@ class Sound():
       self.keep_it_going()
 
     except Exception as e:
-      self.__logger(e).log()
+      self.__logger.log_error(e, context=self.__class__.__name__)
 
   def keep_it_going(self):
     while self.__mixer.music.get_busy():

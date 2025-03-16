@@ -3,7 +3,7 @@ from mailersend import emails
 from utils import Config, Logger
 
 class Mailer:
-  def __init__(self):
+  def __init__(self, logger=None):
     if not self.__mailersend_api_key:
       raise ValueError('MAILERSEND_API_KEY is missing')
     if not self.__to_email:
@@ -12,7 +12,7 @@ class Mailer:
       raise ValueError('FROM_EMAIL is missing')
 
     self._app_name = 'Doggy Tripwire'
-    self.__logger = Logger
+    self.__logger = logger or Logger()
     self.mail_body = {}
 
   def send(self):
@@ -29,7 +29,7 @@ class Mailer:
       sent = mailer.send(self.mail_body)
       print('Sent Email. Code: ', sent)
     except Exception as e:
-      self.__logger(e).log_error()
+      self.__logger.log_error(e, context=self.__class__.__name__)
 
   def initialize_mailer(self):
     return emails.NewEmail(self.__mailersend_api_key)
@@ -70,5 +70,3 @@ class Mailer:
   @property
   def __mailersend_api_key(self):
     return Config.MAILERSEND_API_KEY
-
-Mailer().send()

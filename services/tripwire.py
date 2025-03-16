@@ -1,7 +1,9 @@
 import time
 import RPi.GPIO as GPIO
 
-from services import Alert, Sensor, Sound
+from .alert import Alert
+from .sensor import Sensor
+from .sound import Sound
 
 class Tripwire:
   def __init__(self, sensor_pin, speaker_pin=None, warnings=False, sound='buzzer.mp3'):
