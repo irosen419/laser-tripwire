@@ -1,9 +1,6 @@
-import os
-
-from dotenv import load_dotenv
 from twilio.rest import Client
 
-from utils.logger import Logger
+from utils import Config, Logger
 
 class Twilio:
   def __init__(self):
@@ -38,16 +35,16 @@ class Twilio:
 
   @property
   def __from_number(self):
-    return os.getenv('TWILIO_FROM_NUMBER')
+    return Config.TWILIO_FROM_NUMBER
 
   @property
   def __to_number(self):
-    return os.getenv('TWILIO_TO_NUMBER')
+    return Config.TWILIO_TO_NUMBER
 
   @property
   def __account_sid(self):
-    return os.getenv('TWILIO_ACCOUNT_SID')
+    return Config.TWILIO_ACCOUNT_SID
 
   @property
   def __auth_key(self):
-    return os.getenv('TWILIO_AUTH_KEY')
+    return Config.TWILIO_AUTH_KEY

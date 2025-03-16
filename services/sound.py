@@ -1,6 +1,6 @@
 import pygame
 
-from utils.logger import Logger
+from utils import Logger
 
 class Sound():
   def __init__(self, file_name = 'buzzer.mp3'):

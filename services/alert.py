@@ -1,6 +1,5 @@
-from utils.logger import Logger
-from services.mailer import Mailer
-from services.twilio_class import Twilio
+from utils import Logger
+from services import Mailer, Twilio
 
 class Alert:
   def __init__(self, alert_type='multi', logger=None, mailer=None, twilio=None):

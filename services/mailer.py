@@ -1,9 +1,6 @@
-import os
-
-from dotenv import load_dotenv
 from mailersend import emails
 
-from utils.logger import Logger
+from utils import Config, Logger
 
 class Mailer:
   def __init__(self):
@@ -62,18 +59,18 @@ class Mailer:
 
   @property
   def __to_email(self):
-    return os.getenv('TO_EMAIL')
+    return Config.TO_EMAIL
 
   @property
   def __from_email(self):
-    return os.getenv('FROM_EMAIL')
+    return Config.FROM_EMAIL
 
   @property
   def __reply_to_email(self):
-    return os.getenv('FROM_EMAIL')
+    return Config.FROM_EMAIL
 
   @property
   def __mailersend_api_key(self):
-    return os.getenv('MAILERSEND_API_KEY')
+    return Config.MAILERSEND_API_KEY
 
 Mailer().send()
