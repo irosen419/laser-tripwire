@@ -1,1 +1,1 @@
-# from .tripwire import Tripwire
+from .tripwire import Tripwire

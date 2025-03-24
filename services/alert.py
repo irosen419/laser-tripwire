@@ -44,9 +44,3 @@ class Alert:
       self.__twilio.send_sms()
     except Exception as e:
       self.__logger.log_error(e, context=self.__class__.__name__)
-
-  def test_logger(self):
-    try:
-      1 / 0
-    except Exception as e:
-      self.__logger.log_error(e, context=self.__class__.__name__)
