@@ -3,3 +3,6 @@ __pycache__/
 *.pyo
 
 .lgd-nfy0
+
+.env
+venv
